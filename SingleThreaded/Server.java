@@ -1,3 +1,5 @@
+package SingleThreaded;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,12 +16,15 @@ public class Server {
             ServerSocket socket = new ServerSocket(port);
             socket.setSoTimeout(10000);
             while (true) {
-                System.out.println("Server is listening on port"+ port);
+                System.out.println("SingleThreaded.Server is listening on port"+ port);
                 Socket acceptedConnection = socket.accept();
                 System.out.println("Connection Accepted" + acceptedConnection.getRemoteSocketAddress());
                 PrintWriter toClient = new PrintWriter(acceptedConnection.getOutputStream());
                 BufferedReader fromClient = new BufferedReader(new InputStreamReader(acceptedConnection.getInputStream()));
-                toClient.println("Hello From Server");
+                toClient.println("Hello From SingleThreaded.Server");
+                toClient.close();
+                fromClient.close();
+                acceptedConnection.close();
             }
         }
         catch (IOException ex) {
